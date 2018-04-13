@@ -1,9 +1,7 @@
 package br.upe.sd.blockchain.system;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +40,8 @@ public class DNSFileSystem implements IServiceResolver {
 	}
 
 	@Override
-	public void search(String hostname) {
+	public void listen(String type) {
+		// TODO Auto-generated method stub
 		
 	}
 

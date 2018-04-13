@@ -1,6 +1,10 @@
 package br.upe.sd.blockchain.node;
 
 import br.upe.sd.blockchain.system.Auditability;
+import br.upe.sd.blockchain.system.IServiceResolver;
+import br.upe.sd.blockchain.system.MulticastDNS;
+
+//import br.upe.sd.blockchain.system.Auditability;
 
 public class NodeRunner {
 
@@ -18,6 +22,10 @@ public class NodeRunner {
 		upeCoin.addBlock(new Block(3, "13/04/2018", 89, ""));
 				
 		System.out.println(audit.isChainValid());
+
+		IServiceResolver sr = new MulticastDNS();
+		
+		sr.register("upe.br", "192.168.0.1", 4444);
 	}
 	
 }
