@@ -1,5 +1,7 @@
 package br.upe.sd.blockchain.node;
 
+import java.util.ArrayList;
+
 import br.upe.sd.blockchain.system.Auditability;
 import br.upe.sd.blockchain.system.IServiceResolver;
 import br.upe.sd.blockchain.system.MulticastDNS;
@@ -9,23 +11,17 @@ import br.upe.sd.blockchain.system.MulticastDNS;
 public class NodeRunner {
 
 	public static void main(String[] args) {
-		Blockchain upeCoin = new Blockchain();
-		Auditability audit = new Auditability(upeCoin);
 		
-		System.out.println("Mining the first block...");
-		upeCoin.addBlock(new Block(1, "13/04/2018", 24, ""));
-		
-		System.out.println("Mining the second block...");
-		upeCoin.addBlock(new Block(2, "13/04/2018", 47, ""));
-		
-		System.out.println("Mining the third block...");
-		upeCoin.addBlock(new Block(3, "13/04/2018", 89, ""));
-				
-		System.out.println(audit.isChainValid());
+		NodeServer ns = new NodeServer();
+		ns.start();
 
+		System.out.println("eae");
+		
 		IServiceResolver sr = new MulticastDNS();
 		
-		sr.register("upe.br", "192.168.0.1", 4444);
+		ArrayList<String> nodes = sr.getAll();
+
+		Block newBlock = new Block(1, "13/04/2018", 24, "");
 	}
 	
 }

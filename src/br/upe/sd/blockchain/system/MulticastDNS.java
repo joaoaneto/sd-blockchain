@@ -3,6 +3,7 @@ package br.upe.sd.blockchain.system;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
@@ -42,6 +43,12 @@ public class MulticastDNS implements IServiceResolver {
         	System.out.println(e.getMessage());
         }
 		
+	}
+
+	@Override
+	public ArrayList<String> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
