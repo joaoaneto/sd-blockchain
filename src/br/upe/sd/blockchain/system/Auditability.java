@@ -1,7 +1,7 @@
 package br.upe.sd.blockchain.system;
 
-import br.upe.sd.blockchain.node.Block;
-import br.upe.sd.blockchain.node.Blockchain;
+import br.upe.sd.blockchain.node.entities.Block;
+import br.upe.sd.blockchain.node.entities.Blockchain;
 
 public class Auditability {
 	

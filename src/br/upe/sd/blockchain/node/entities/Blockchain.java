@@ -1,4 +1,4 @@
-package br.upe.sd.blockchain.node;
+package br.upe.sd.blockchain.node.entities;
 
 import java.util.ArrayList;
 
