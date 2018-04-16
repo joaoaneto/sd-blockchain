@@ -10,35 +10,33 @@ import br.upe.sd.blockchain.system.dns.MulticastDNS;
 
 public class Runner {
 
+	public static final String HOSTNAME = "upe.host1";
+	public static final String ADDRESS = "192.168.0.105";
+	public static final int PORT = 4444;
+	
 	public static void main(String[] args) throws InterruptedException {
-		
-		System.out.println("Starting HTTP Server");
-		
 		IServiceResolver localDNS = new LocalDNS();
-
-		IServiceResolver mDNS = new MulticastDNS(localDNS);
+		IServiceResolver mDNS = new MulticastDNS(localDNS);		
+		
+		System.out.println("Registering " + HOSTNAME + " service...");
+		mDNS.register(HOSTNAME, ADDRESS, PORT);
+		
+		System.out.println("Listening to services on network...");
 		mDNS.listen("_http._tcp.local.");
-				
+
+		System.out.println("Starting Node HTTP Server...");
 		NodeServer ns = new NodeServer(localDNS);
 		ns.start();
-
-		System.out.println("Registering the BC service on host1");
 		
-		mDNS.register("br.upe", "192.168.0.103", 4444);
-		
-		Thread.sleep(30000);
-		
-		System.out.println(localDNS.getAll());
-		
-		
-		Blockchain upeCoin = new Blockchain();
-		Auditability audit = new Auditability(upeCoin);
-		
-		System.out.println("Mining the first block...");
-		
-		Block b1 = new Block("1", "3", "13/04/2018", 24, "");
-		b1.mine();
-		System.out.println(b1.getHash());
+//		Thread.sleep(30000);
+//		
+//		System.out.println(localDNS.getAll());
+//				
+//		System.out.println("Mining the first block...");
+//		
+//		Block b1 = new Block("1", "3", "13/04/2018", 24, "");
+//		b1.mine();
+//		System.out.println(b1.getHash());
 
 	}
 	

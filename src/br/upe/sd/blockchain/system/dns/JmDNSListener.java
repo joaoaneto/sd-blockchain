@@ -21,7 +21,7 @@ public class JmDNSListener implements ServiceListener {
     @Override
     public void serviceRemoved(ServiceEvent event) {
         System.out.println("Service removed: " + event.getInfo());
-        //this.sr.remove(event.getName());
+        this.sr.remove(event.getName());
     }
 
     @Override
@@ -37,7 +37,6 @@ public class JmDNSListener implements ServiceListener {
 			e.printStackTrace();
 		}
     	
-    	System.out.println("Registering " + serviceName + " : " + address + " on local DNS");
     	this.sr.register(serviceName, address.toString());
     }
 }

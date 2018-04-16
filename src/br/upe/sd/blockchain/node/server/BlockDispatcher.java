@@ -31,9 +31,7 @@ public class BlockDispatcher {
         CloseableHttpClient client = HttpClients.custom()
         		.setConnectionManager(cm)
         		.build();
-        
-        System.out.println(hosts);
-        
+                
         try {
 	        
 	        PostThread[] threads = new PostThread[hosts.size()];

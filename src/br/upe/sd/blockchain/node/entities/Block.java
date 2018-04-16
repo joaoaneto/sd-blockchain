@@ -27,7 +27,7 @@ public class Block {
 
         try {
             String hashValor = this.index + this.previousHash + this.time + this.value + this.nonce;
-            String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(hashValor);   
+            String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(hashValor);
             return sha256hex;
         }catch(Exception ex) {
             ex.printStackTrace();

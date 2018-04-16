@@ -57,8 +57,8 @@ public class NodeServer extends Thread {
 			
 			System.out.println(data);
 			
-			BlockDispatcher bd = new BlockDispatcher(this.sr);
-			bd.dispatcher(data);
+//			BlockDispatcher bd = new BlockDispatcher(this.sr);
+//			bd.dispatcher(data);
             	
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
