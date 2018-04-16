@@ -25,9 +25,7 @@ public class BlockDispatcher {
 	public void dispatcher(String data) {
 		
 		ArrayList<String> hosts = sr.getAll();
-		
-		Block newBlock = new Block(0, "17/05/2017", 4, "");
-		
+				
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
 		
         CloseableHttpClient client = HttpClients.custom()
@@ -41,7 +39,7 @@ public class BlockDispatcher {
 	        PostThread[] threads = new PostThread[hosts.size()];
 	        
 	        for(int i = 0; i < hosts.size(); i++) {
-				System.out.println("Sending the block " + newBlock.getHash() + "to host " + hosts.get(i));
+				System.out.println("Sending block data to" + "hosts.get(i)");
 		
 				HttpPost httpPost = new HttpPost(hosts.get(i) + ":8000/mine");
 				

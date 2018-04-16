@@ -1,6 +1,9 @@
 package br.upe.sd.blockchain.node;
 
+import br.upe.sd.blockchain.node.entities.Block;
+import br.upe.sd.blockchain.node.entities.Blockchain;
 import br.upe.sd.blockchain.node.server.NodeServer;
+import br.upe.sd.blockchain.system.Auditability;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
 import br.upe.sd.blockchain.system.dns.LocalDNS;
 import br.upe.sd.blockchain.system.dns.MulticastDNS;
@@ -26,6 +29,17 @@ public class Runner {
 		Thread.sleep(30000);
 		
 		System.out.println(localDNS.getAll());
+		
+		
+		Blockchain upeCoin = new Blockchain();
+		Auditability audit = new Auditability(upeCoin);
+		
+		System.out.println("Mining the first block...");
+		
+		Block b1 = new Block("1", "3", "13/04/2018", 24, "");
+		b1.mine();
+		System.out.println(b1.getHash());
+
 	}
 	
 }

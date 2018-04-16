@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import com.sun.net.httpserver.HttpServer;
 
 import br.upe.sd.blockchain.node.entities.Block;
+import br.upe.sd.blockchain.node.entities.Blockchain;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
 
 import com.sun.net.httpserver.HttpHandler;
@@ -29,6 +30,7 @@ public class NodeServer extends Thread {
 		try {
 			HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 	 
+			server.createContext("/transaction", new TransactionHandler());
 			server.createContext("/mine", new MineHandler(this.sr));
 	        server.setExecutor(null);
 	        
@@ -37,6 +39,33 @@ public class NodeServer extends Thread {
 			e.printStackTrace();
 		}		
 	}
+	
+    static class TransactionHandler implements HttpHandler {
+        
+    	private IServiceResolver sr;
+    	
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            String response = "The data was multicasted";
+            t.sendResponseHeaders(200, response.length());
+            
+            InputStream is = t.getRequestBody();
+
+			StringWriter writer = new StringWriter();
+			IOUtils.copy(is, writer, "UTF-8");
+			String data = writer.toString();
+			
+			System.out.println(data);
+			
+			BlockDispatcher bd = new BlockDispatcher(this.sr);
+			bd.dispatcher(data);
+            	
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+
 	
     static class MineHandler implements HttpHandler {
     
@@ -47,21 +76,18 @@ public class NodeServer extends Thread {
     	}
         @Override
         public void handle(HttpExchange t) throws IOException {
-            String response = "This is the response";
+            String response = "The data is mining...";
             t.sendResponseHeaders(200, response.length());
             
             InputStream is = t.getRequestBody();
 
 			StringWriter writer = new StringWriter();
 			IOUtils.copy(is, writer, "UTF-8");
-			String theString = writer.toString();
+			String data = writer.toString();
 			
-			System.out.println(theString);
-			
-			BlockDispatcher bd = new BlockDispatcher(this.sr);
-			
-			bd.dispatcher(theString);
-            	
+			Blockchain blockchain = new Blockchain();
+			blockchain.addBlock(data);
+							
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
             os.close();

@@ -4,6 +4,8 @@ import java.security.*;
 
 public class Block {
 	
+	private String owner;
+	private String recipient;
 	private int index;
 	private String time;
 	private int value;
@@ -11,8 +13,9 @@ public class Block {
 	private String hash;
 	private int nonce;
 	
-	public Block(int index, String time, int value, String previousHash) {
-		this.setIndex(index);
+	public Block(String owner, String recipient, String time, int value, String previousHash) {
+		this.setOwner(owner);
+		this.setRecipient(recipient);
 		this.setTime(time);
 		this.setValor(value);
 		this.setPreviousHash(previousHash);
@@ -21,21 +24,23 @@ public class Block {
 	
 	public String calculateHash() {
         String result = null;
+
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            String hashValor = this.index + this.previousHash + this.time + this.value;
-            byte[] hash = digest.digest(hashValor.getBytes());
-            return hash.toString();
+            String hashValor = this.index + this.previousHash + this.time + this.value + this.nonce;
+            String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(hashValor);   
+            return sha256hex;
         }catch(Exception ex) {
             ex.printStackTrace();
         }
+                
         return result;
     }
 	
 	public void mine() {
-		while(this.getHash().substring(0, 3) != "000") {
+		while(!this.getHash().substring(0, 2).equals("00")) {
 			this.setNonce(this.getNonce() + 1);
 			this.hash = this.calculateHash();
+			System.out.println(this.hash);
 		}
 	}
 
@@ -85,5 +90,21 @@ public class Block {
 
 	public void setNonce(int nonce) {
 		this.nonce = nonce;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+
+	public String getRecipient() {
+		return recipient;
+	}
+
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
 	}
 }
