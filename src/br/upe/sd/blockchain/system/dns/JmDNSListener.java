@@ -28,6 +28,7 @@ public class JmDNSListener implements ServiceListener {
     public void serviceResolved(ServiceEvent event) {    	
     	String serviceName = null;
     	InetAddress address = null;
+    	
     	try {
             System.out.println("Service resolved: " + event.getInfo().getAddress());
     		
@@ -37,6 +38,6 @@ public class JmDNSListener implements ServiceListener {
 			e.printStackTrace();
 		}
     	
-    	this.sr.register(serviceName, address.toString());
+    	this.sr.register(serviceName, address.toString(), event.getInfo().getPort());
     }
 }

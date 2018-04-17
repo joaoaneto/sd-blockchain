@@ -12,7 +12,7 @@ public class MongoFactory {
 
 	MongoClient client;
 	
-	public MongoFactory(String address) {
+	public MongoFactory(String address, int port) {
 		this.client = new MongoClient(address);
 	}
 	

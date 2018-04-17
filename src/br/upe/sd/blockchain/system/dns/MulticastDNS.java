@@ -53,13 +53,7 @@ public class MulticastDNS implements IServiceResolver {
 	}
 
 	@Override
-	public void register(String hostname, String address) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String get(String hostname) {
+	public HostDNS get(String hostname) {
 		// TODO Auto-generated method stub
 		return null;
 	}

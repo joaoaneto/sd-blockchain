@@ -31,7 +31,8 @@ public class NodeServer extends Thread {
 	 
 			server.createContext("/transaction", new TransactionHandler(this.sr));
 			server.createContext("/mine", new MineHandler(this.sr));
-	        server.setExecutor(null);
+
+			server.setExecutor(null);
 	        
 	        server.start();
 		} catch (IOException e) {

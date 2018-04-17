@@ -12,18 +12,17 @@ import br.upe.sd.blockchain.node.repository.MongoFactory;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
 
 public class Blockchain {
-
-	private ArrayList<Block> chain;
 	
 	private IRepository repo;
 	
 	public Blockchain(IServiceResolver sr) {
-		this.chain = new ArrayList<Block>();
-		this.chain.add(this.createGenesisBlock());
-		
-		MongoFactory mf = new MongoFactory(sr.get(Runner.DB_HOSTNAME));
+		String addr = sr.get(Runner.DB_HOSTNAME).getIp();
+		int port = sr.get(Runner.DB_HOSTNAME).getPort();
+		MongoFactory mf = new MongoFactory(addr, port);
 		
 		this.repo = new BlockchainRepository(mf.getInstance("sd"));
+
+		this.repo.insert(this.createGenesisBlock());
 	}
 	
 	public Block createGenesisBlock() {
@@ -42,7 +41,8 @@ public class Blockchain {
 		Block block = new Block(
 				obj.getString("owner"), 
 				obj.getString("recipient"),
-				timestamp.toString(), obj.getInt("coins"), 
+				timestamp.toString(),
+				obj.getInt("coins"), 
 				this.getLatestBlock().getHash()
 		);
 		

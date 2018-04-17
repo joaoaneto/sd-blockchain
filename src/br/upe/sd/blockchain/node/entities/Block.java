@@ -4,7 +4,6 @@ public class Block {
 	
 	private String owner;
 	private String recipient;
-	private int index;
 	private String time;
 	private int value;
 	private String previousHash;
@@ -24,7 +23,7 @@ public class Block {
         String result = null;
 
         try {
-            String hashValor = this.index + this.previousHash + this.time + this.value + this.nonce;
+            String hashValor = this.owner + this.recipient + this.previousHash + this.time + this.value + this.nonce;
             String sha256hex = org.apache.commons.codec.digest.DigestUtils.sha256Hex(hashValor);
             return sha256hex;
         }catch(Exception ex) {
@@ -63,14 +62,6 @@ public class Block {
 
 	public void setTime(String time) {
 		this.time = time;
-	}
-
-	public int getIndex() {
-		return index;
-	}
-
-	public void setIndex(int index) {
-		this.index = index;
 	}
 
 	public String getHash() {
