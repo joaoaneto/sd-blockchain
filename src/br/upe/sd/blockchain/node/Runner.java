@@ -43,6 +43,9 @@ public class Runner {
 		System.out.println("Starting Node HTTP Server...");
 		NodeServer ns = new NodeServer(localDNS);
 		ns.start();
+		
+		System.out.println(localDNS.getAll());
+		
 	}
 	
 }

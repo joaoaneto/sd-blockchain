@@ -42,8 +42,12 @@ public class LocalDNS implements IServiceResolver {
 			HostDNS h = new HostDNS(address.substring(1), port);
 			
 			this.dnsTable.put(hostname, h);			
+		} else if(hostname.equals(Runner.DB_HOSTNAME)) {
+
+			HostDNS h = new HostDNS(address.substring(1), port);
+			
+			this.dnsTable.put(hostname, h);
 		}
-		System.out.println(this.dnsTable);
 	}
 
 	@Override
