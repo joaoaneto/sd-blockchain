@@ -10,7 +10,6 @@ import org.apache.commons.io.IOUtils;
 
 import com.sun.net.httpserver.HttpServer;
 
-import br.upe.sd.blockchain.node.entities.Block;
 import br.upe.sd.blockchain.node.entities.Blockchain;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
 
@@ -30,8 +29,8 @@ public class NodeServer extends Thread {
 		try {
 			HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 	 
-			server.createContext("/transaction", new TransactionHandler());
-			server.createContext("/mine", new MineHandler(this.sr));
+			server.createContext("/transaction", new TransactionHandler(this.sr));
+			server.createContext("/mine", new MineHandler());
 	        server.setExecutor(null);
 	        
 	        server.start();
@@ -43,6 +42,10 @@ public class NodeServer extends Thread {
     static class TransactionHandler implements HttpHandler {
         
     	private IServiceResolver sr;
+    	
+    	public TransactionHandler(IServiceResolver sr) {
+    		this.sr = sr;
+    	}
     	
         @Override
         public void handle(HttpExchange t) throws IOException {
@@ -56,9 +59,9 @@ public class NodeServer extends Thread {
 			String data = writer.toString();
 			
 			System.out.println(data);
-			
-//			BlockDispatcher bd = new BlockDispatcher(this.sr);
-//			bd.dispatcher(data);
+						
+			BlockDispatcher bd = new BlockDispatcher(this.sr);
+			bd.dispatcher(data);
             	
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
@@ -69,11 +72,6 @@ public class NodeServer extends Thread {
 	
     static class MineHandler implements HttpHandler {
     
-    	private IServiceResolver sr;
-    	
-    	public MineHandler(IServiceResolver sr) {
-    		this.sr = sr;
-    	}
         @Override
         public void handle(HttpExchange t) throws IOException {
             String response = "The data is mining...";
@@ -84,6 +82,8 @@ public class NodeServer extends Thread {
 			StringWriter writer = new StringWriter();
 			IOUtils.copy(is, writer, "UTF-8");
 			String data = writer.toString();
+			
+			System.out.println(data);
 			
 			Blockchain blockchain = new Blockchain();
 			blockchain.addBlock(data);

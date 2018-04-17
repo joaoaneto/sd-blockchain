@@ -2,7 +2,6 @@ package br.upe.sd.blockchain.system.dns;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import br.upe.sd.blockchain.node.Runner;

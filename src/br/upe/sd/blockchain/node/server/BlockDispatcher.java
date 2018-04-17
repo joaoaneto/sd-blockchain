@@ -10,9 +10,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
-import br.upe.sd.blockchain.node.entities.Block;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
-import br.upe.sd.blockchain.system.dns.LocalDNS;
 
 public class BlockDispatcher {
 
@@ -27,19 +25,26 @@ public class BlockDispatcher {
 		ArrayList<String> hosts = sr.getAll();
 				
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-		
+
+		System.out.println("eae");
+        
         CloseableHttpClient client = HttpClients.custom()
         		.setConnectionManager(cm)
         		.build();
-                
+         
+		System.out.println("eae");
+
+        
         try {
 	        
 	        PostThread[] threads = new PostThread[hosts.size()];
 	        
+	        System.out.println(this.sr.getAll());
+	        
 	        for(int i = 0; i < hosts.size(); i++) {
 				System.out.println("Sending block data to" + "hosts.get(i)");
 		
-				HttpPost httpPost = new HttpPost(hosts.get(i) + ":8000/mine");
+				HttpPost httpPost = new HttpPost("http://" + hosts.get(i) + ":8000/mine");
 				
 				threads[i] = new PostThread(client, httpPost, i + 1, data);
 				

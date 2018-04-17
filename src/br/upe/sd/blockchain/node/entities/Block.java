@@ -1,7 +1,5 @@
 package br.upe.sd.blockchain.node.entities;
 
-import java.security.*;
-
 public class Block {
 	
 	private String owner;
