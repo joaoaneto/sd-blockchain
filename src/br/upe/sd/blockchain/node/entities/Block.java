@@ -38,7 +38,6 @@ public class Block {
 		while(!this.getHash().substring(0, 2).equals("00")) {
 			this.setNonce(this.getNonce() + 1);
 			this.hash = this.calculateHash();
-			System.out.println(this.hash);
 		}
 	}
 

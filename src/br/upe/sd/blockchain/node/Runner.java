@@ -1,5 +1,14 @@
 package br.upe.sd.blockchain.node;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import com.mongodb.client.MongoDatabase;
+
+import br.upe.sd.blockchain.node.entities.Block;
+import br.upe.sd.blockchain.node.repository.BlockchainRepository;
+import br.upe.sd.blockchain.node.repository.IRepository;
+import br.upe.sd.blockchain.node.repository.MongoFactory;
 import br.upe.sd.blockchain.node.server.NodeServer;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
 import br.upe.sd.blockchain.system.dns.LocalDNS;
@@ -11,9 +20,15 @@ public class Runner {
 	public static final String ADDRESS = "192.168.0.105";
 	public static final int PORT = 4444;
 	
+	public static final String DB_HOSTNAME = "upe.db";
+	public static final int DB_PORT = 27027;
+	
 	public static void main(String[] args) throws InterruptedException {
 		IServiceResolver localDNS = new LocalDNS();
 		IServiceResolver mDNS = new MulticastDNS(localDNS);		
+
+//		System.out.println("Registering database service...");
+//		mDNS.register(DB_HOSTNAME, ADDRESS, DB_PORT);
 		
 		System.out.println("Registering " + HOSTNAME + " service...");
 		mDNS.register(HOSTNAME, ADDRESS, PORT);
@@ -24,6 +39,17 @@ public class Runner {
 		System.out.println("Starting Node HTTP Server...");
 		NodeServer ns = new NodeServer(localDNS);
 		ns.start();
+		
+//		MongoFactory mf = new MongoFactory(ADDRESS, localDNS);
+//		IRepository repo = new BlockchainRepository(mf.getInstance("sd"));
+//		
+//		Block b1 = new Block("1", "3", new Timestamp(System.currentTimeMillis()).toString(), 24, "1"); 
+//		Block b2 = new Block("1", "5", new Timestamp(System.currentTimeMillis()).toString(), 64, b1.getHash()); 
+//		
+//		repo.insert(b2);
+//		
+//		ArrayList<Block> b = repo.list("recipient", "3");
+//		System.out.println(b);
 	}
 	
 }
