@@ -29,7 +29,15 @@ public class BlockchainRepository implements IRepository {
 	public void insert(Block block) {
 		JSONObject obj = new JSONObject(block);
 		Document doc = Document.parse(obj.toString());
-		this.col.insertOne(doc);
+		Document query = new Document();
+		query.append("hash", block.getHash());
+		
+		FindIterable<Document> ds = this.col.find(query);
+		
+		if(ds == null) {
+			this.col.insertOne(doc);
+		}
+		
 	}
 	
 	@Override

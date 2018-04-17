@@ -12,13 +12,12 @@ public class MongoFactory {
 
 	MongoClient client;
 	
-	public MongoFactory(String address, IServiceResolver sr) {
-		this.client = new MongoClient(sr.get(address));
+	public MongoFactory(String address) {
+		this.client = new MongoClient(address);
 	}
 	
 	public MongoDatabase getInstance(String name) {
 		return this.client.getDatabase(name);
 	}
-
 	
 }

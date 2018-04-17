@@ -5,17 +5,25 @@ import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-//import br.upe.sd.blockchain.node.repository.IRepository;
+import br.upe.sd.blockchain.node.Runner;
+import br.upe.sd.blockchain.node.repository.BlockchainRepository;
+import br.upe.sd.blockchain.node.repository.IRepository;
+import br.upe.sd.blockchain.node.repository.MongoFactory;
+import br.upe.sd.blockchain.system.dns.IServiceResolver;
 
 public class Blockchain {
 
 	private ArrayList<Block> chain;
 	
-	//private IRepository repo;
+	private IRepository repo;
 	
-	public Blockchain() {
+	public Blockchain(IServiceResolver sr) {
 		this.chain = new ArrayList<Block>();
 		this.chain.add(this.createGenesisBlock());
+		
+		MongoFactory mf = new MongoFactory(sr.get(Runner.DB_HOSTNAME));
+		
+		this.repo = new BlockchainRepository(mf.getInstance("sd"));
 	}
 	
 	public Block createGenesisBlock() {
@@ -23,7 +31,7 @@ public class Blockchain {
 	}
 	
 	public Block getLatestBlock() {
-		return this.chain.get(this.chain.size() - 1);
+		return this.repo.list().get(this.repo.list().size() - 1);
 	}
 	
 	public void addBlock(String data) {
@@ -40,11 +48,11 @@ public class Blockchain {
 		
 		block.mine();
 		
-		this.chain.add(block);
+		this.repo.insert(block);
 	}
 	
 	public ArrayList<Block> getChain() {
-		return this.chain;
+		return this.repo.list();
 	}
 	
 }

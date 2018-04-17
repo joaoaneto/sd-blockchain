@@ -30,7 +30,7 @@ public class NodeServer extends Thread {
 			HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
 	 
 			server.createContext("/transaction", new TransactionHandler(this.sr));
-			server.createContext("/mine", new MineHandler());
+			server.createContext("/mine", new MineHandler(this.sr));
 	        server.setExecutor(null);
 	        
 	        server.start();
@@ -72,6 +72,12 @@ public class NodeServer extends Thread {
 	
     static class MineHandler implements HttpHandler {
     
+    	IServiceResolver sr;
+    	
+    	public MineHandler(IServiceResolver sr) {
+    		this.sr = sr;
+    	}
+    	
         @Override
         public void handle(HttpExchange t) throws IOException {
             String response = "The data is mining...";
@@ -85,7 +91,7 @@ public class NodeServer extends Thread {
 			
 			System.out.println(data);
 			
-			Blockchain blockchain = new Blockchain();
+			Blockchain blockchain = new Blockchain(this.sr);
 			blockchain.addBlock(data);
 							
             OutputStream os = t.getResponseBody();

@@ -25,15 +25,10 @@ public class BlockDispatcher {
 		ArrayList<String> hosts = sr.getAll();
 				
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-
-		System.out.println("eae");
         
         CloseableHttpClient client = HttpClients.custom()
         		.setConnectionManager(cm)
         		.build();
-         
-		System.out.println("eae");
-
         
         try {
 	        

@@ -27,8 +27,8 @@ public class Runner {
 		IServiceResolver localDNS = new LocalDNS();
 		IServiceResolver mDNS = new MulticastDNS(localDNS);		
 
-//		System.out.println("Registering database service...");
-//		mDNS.register(DB_HOSTNAME, ADDRESS, DB_PORT);
+		System.out.println("Registering database service...");
+		mDNS.register(DB_HOSTNAME, ADDRESS, DB_PORT);
 		
 		System.out.println("Registering " + HOSTNAME + " service...");
 		mDNS.register(HOSTNAME, ADDRESS, PORT);
@@ -39,17 +39,6 @@ public class Runner {
 		System.out.println("Starting Node HTTP Server...");
 		NodeServer ns = new NodeServer(localDNS);
 		ns.start();
-		
-//		MongoFactory mf = new MongoFactory(ADDRESS, localDNS);
-//		IRepository repo = new BlockchainRepository(mf.getInstance("sd"));
-//		
-//		Block b1 = new Block("1", "3", new Timestamp(System.currentTimeMillis()).toString(), 24, "1"); 
-//		Block b2 = new Block("1", "5", new Timestamp(System.currentTimeMillis()).toString(), 64, b1.getHash()); 
-//		
-//		repo.insert(b2);
-//		
-//		ArrayList<Block> b = repo.list("recipient", "3");
-//		System.out.println(b);
 	}
 	
 }
