@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
@@ -99,14 +100,13 @@ public class NodeServer extends Thread {
         @Override
         public void handle(HttpExchange t) throws IOException {           
             InputStream is = t.getRequestBody();
-
-			StringWriter writer = new StringWriter();
-			IOUtils.copy(is, writer, "UTF-8");
-			String data = writer.toString();
-						
+            
+			byte[] value = Base64.decodeBase64(is.readAllBytes());			
+			String data = new String(value);
+			
 			Blockchain blockchain = new Blockchain(this.sr);
 			blockchain.addBlock(data);
-	
+
 			String response = "The data is mining...";
 			t.sendResponseHeaders(200, response.length());
 	           

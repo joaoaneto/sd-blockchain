@@ -2,7 +2,9 @@ package br.upe.sd.blockchain.node.server;
 
 import java.util.ArrayList;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -77,11 +79,13 @@ public class BlockDispatcher {
 			
 			try {
 				CloseableHttpClient client = HttpClients.createDefault();
-										
-			    StringEntity entity = new StringEntity(this.data);
+				
+				byte[] bytesEncoded = Base64.encodeBase64(data.getBytes());
+				
+				ByteArrayEntity entity = new ByteArrayEntity(bytesEncoded);
 
 			    this.httpPost.setEntity(entity);
-			    this.httpPost.setHeader("Content-type", "application/json");
+			    this.httpPost.setHeader("Content-type", "application/octet-stream");
 			    
 			    client.execute(this.httpPost);
 			    
