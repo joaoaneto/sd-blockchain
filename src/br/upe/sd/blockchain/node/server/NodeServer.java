@@ -20,6 +20,7 @@ import br.upe.sd.blockchain.node.repository.BlockchainRepository;
 import br.upe.sd.blockchain.node.repository.IRepository;
 import br.upe.sd.blockchain.node.repository.MongoFactory;
 import br.upe.sd.blockchain.node.repository.WalletRepository;
+import br.upe.sd.blockchain.system.Auditability;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
 
 import com.sun.net.httpserver.HttpHandler;
@@ -46,7 +47,8 @@ public class NodeServer extends Thread {
 			
 			server.createContext("/blockchain", new BlockchainListHandler(this.sr));
 			server.createContext("/wallet", new CreateWalletHandler(this.sr));
-		
+			server.createContext("/auditability", new AuditabilityHandler(this.sr));
+				
 			server.createContext("/off", new PowerOffHandler(this.sr2));
 			
 			server.setExecutor(null);
@@ -201,4 +203,29 @@ public class NodeServer extends Thread {
         }
     }
     
+    static class AuditabilityHandler implements HttpHandler {
+        
+    	private IServiceResolver sr;
+    	
+    	public AuditabilityHandler(IServiceResolver sr) {
+    		this.sr = sr;
+    	}
+    	
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+            InputStream is = t.getRequestBody();
+            
+            Auditability audit = new Auditability(this.sr);
+           
+			JSONObject obj = new JSONObject();
+			obj.put("integrity", audit.isChainValid());
+			
+            t.sendResponseHeaders(200, obj.toString().length());
+
+            OutputStream os = t.getResponseBody();
+            os.write(obj.toString().getBytes());
+            os.close();
+        }
+    }
+   
 }
