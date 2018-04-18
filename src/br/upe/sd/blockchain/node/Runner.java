@@ -24,7 +24,7 @@ public class Runner {
 	
 	public static final String DB_HOSTNAME = "upe.db";
 	public static final int DB_PORT = 27017;
-	
+		
 	public static void main(String[] args) throws InterruptedException {
 		IServiceResolver localDNS = new LocalDNS();
 		IServiceResolver mDNS = new MulticastDNS(localDNS);		
@@ -45,7 +45,7 @@ public class Runner {
 		NodeServer ns = new NodeServer(localDNS, mDNS);
 		ns.start();
 		
-		Monitor monitor = new Monitor(localDNS);
+		Monitor monitor = new Monitor(localDNS, "d8790f99-bdfb-4893-88fa-d6fca263a039");
 		monitor.start();
 	}
 

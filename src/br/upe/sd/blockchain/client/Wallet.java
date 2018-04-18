@@ -2,6 +2,10 @@ package br.upe.sd.blockchain.client;
 
 import java.util.UUID;
 
+import br.upe.sd.blockchain.node.Runner;
+import br.upe.sd.blockchain.node.repository.BlockchainRepository;
+import br.upe.sd.blockchain.node.repository.MongoFactory;
+
 public class Wallet {
 	
 	private UUID uuid;
@@ -13,6 +17,12 @@ public class Wallet {
 		this.setCoins(coins);
 		this.setUuid(UUID.randomUUID());
 	}
+	
+	public Wallet(String name, int coins, String uuid) {
+		this.setName(name);
+		this.setCoins(coins);
+		this.setUuid(UUID.fromString(uuid));
+	}
 
 	public String getName() {
 		return name;
@@ -22,7 +32,7 @@ public class Wallet {
 		this.name = name;
 	}
 	
-	public int getCoins() {
+	public int getCoins() {		
 		return coins;
 	}
 
@@ -37,5 +47,4 @@ public class Wallet {
 	public void setUuid(UUID uuid) {
 		this.uuid = uuid;
 	}
-	
 }

@@ -74,7 +74,6 @@ public class BlockchainRepository implements IRepository {
 		ArrayList<Block> blocks = new ArrayList<Block>();
 		
 		if(this.col.count() == 0) {
-			System.out.println("Should here");
 			return blocks;
 		}
 		
