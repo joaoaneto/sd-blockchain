@@ -19,12 +19,19 @@ public class LocalDNS implements IServiceResolver {
 		ArrayList<String> hosts = new ArrayList<>();
 		
 		for (Map.Entry<String, HostDNS> entry : this.dnsTable.entrySet()) {
-		    String address  = entry.getValue().getIp();
 		    
-			hosts.add(address);
+			if(!entry.getKey().equals("upe.db")) {
+				String address = entry.getValue().getIp();
+				hosts.add(address);
+			}
+			
 		}
 
 		return hosts;
+	}
+	
+	public Map<String, HostDNS> getDNS() {
+		return this.dnsTable;
 	}
 	
 	public Map<String, HostDNS> getDNSTable() {
@@ -43,7 +50,6 @@ public class LocalDNS implements IServiceResolver {
 			
 			this.dnsTable.put(hostname, h);			
 		} else if(hostname.equals(Runner.DB_HOSTNAME)) {
-
 			HostDNS h = new HostDNS(address.substring(1), port);
 			
 			this.dnsTable.put(hostname, h);
@@ -58,6 +64,11 @@ public class LocalDNS implements IServiceResolver {
 	@Override
 	public void remove(String hostname) {
 		this.dnsTable.remove(hostname);
-		System.out.println(this.dnsTable);
+	}
+
+	@Override
+	public void unregisterAllServices() {
+		// TODO Auto-generated method stub
+		
 	}
 }

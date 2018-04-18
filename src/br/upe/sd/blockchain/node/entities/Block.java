@@ -34,10 +34,12 @@ public class Block {
     }
 	
 	public void mine() {
+		System.out.println("The block is being minimg...");
 		while(!this.getHash().substring(0, 2).equals("00")) {
 			this.setNonce(this.getNonce() + 1);
 			this.hash = this.calculateHash();
 		}
+		System.out.println("The block was mined... Hash: " + this.hash);
 	}
 
 	public String getPreviousHash() {

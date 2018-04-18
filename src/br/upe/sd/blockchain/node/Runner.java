@@ -11,6 +11,7 @@ import br.upe.sd.blockchain.node.repository.BlockchainRepository;
 import br.upe.sd.blockchain.node.repository.IRepository;
 import br.upe.sd.blockchain.node.repository.MongoFactory;
 import br.upe.sd.blockchain.node.server.NodeServer;
+import br.upe.sd.blockchain.system.Monitor;
 import br.upe.sd.blockchain.system.dns.IServiceResolver;
 import br.upe.sd.blockchain.system.dns.LocalDNS;
 import br.upe.sd.blockchain.system.dns.MulticastDNS;
@@ -41,11 +42,11 @@ public class Runner {
 		mDNS.listen("_http._tcp.local.");
 
 		System.out.println("Starting Node HTTP Server...");
-		NodeServer ns = new NodeServer(localDNS);
+		NodeServer ns = new NodeServer(localDNS, mDNS);
 		ns.start();
 		
-		System.out.println(localDNS.getAll());
-		
+		Monitor monitor = new Monitor(localDNS);
+		monitor.start();
 	}
-	
+
 }

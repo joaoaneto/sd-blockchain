@@ -22,7 +22,9 @@ public class Blockchain {
 		
 		this.repo = new BlockchainRepository(mf.getInstance("sd"));
 
-		this.repo.insert(this.createGenesisBlock());
+		if(this.repo.list("owner", "0").size() == 0) {			
+			this.repo.insert(this.createGenesisBlock());
+		}
 	}
 	
 	public Block createGenesisBlock() {

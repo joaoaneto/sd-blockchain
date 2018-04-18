@@ -6,8 +6,6 @@ import org.bson.Document;
 import org.json.JSONObject;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCursor;
-import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -29,15 +27,16 @@ public class BlockchainRepository implements IRepository {
 	public void insert(Block block) {
 		JSONObject obj = new JSONObject(block);
 		Document doc = Document.parse(obj.toString());
-	//	Document query = new Document();
-//		query.append("hash", block.getHash());
-//		
-//		FindIterable<Document> ds = this.col.find(query);
-//		
-		//if(ds == null) {
-			this.col.insertOne(doc);
-		//}
 		
+		Block b = this.list().get(this.list().size() - 1);
+		if(!b.getOwner().equals(block.getOwner())
+				&& !b.getRecipient().equals(block.getRecipient())
+				&& b.getValor() != block.getValor()) {
+			this.col.insertOne(doc);
+			System.out.println("The block was save in the blockchain!!");
+		}else {
+			System.out.println("The block has already been mined by another host!!");
+		}
 	}
 	
 	@Override

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceInfo;
@@ -11,6 +12,7 @@ import javax.jmdns.ServiceInfo;
 public class MulticastDNS implements IServiceResolver {
 
 	IServiceResolver sr = null;
+	JmDNS jmdns;
 	
 	public MulticastDNS(IServiceResolver sr) {
 		this.sr = sr;
@@ -20,10 +22,10 @@ public class MulticastDNS implements IServiceResolver {
 	public void register(String hostname, String address, int port) {
 		
         try {
-            JmDNS jmdns = JmDNS.create(InetAddress.getByName(address));
+            this.jmdns = JmDNS.create(InetAddress.getByName(address));
 
             ServiceInfo serviceInfo = ServiceInfo.create("_http._tcp.", hostname, port, "BC service");
-            jmdns.registerService(serviceInfo);
+            this.jmdns.registerService(serviceInfo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -62,6 +64,17 @@ public class MulticastDNS implements IServiceResolver {
 	public void remove(String hostname) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Map<String, HostDNS> getDNS() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void unregisterAllServices() {
+		this.jmdns.unregisterAllServices();
 	}
 
 }

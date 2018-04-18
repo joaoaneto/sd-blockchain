@@ -21,7 +21,6 @@ public class BlockDispatcher {
 	}
 	
 	public void dispatcher(String data) {
-		
 		ArrayList<String> hosts = sr.getAll();
 				
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
@@ -37,9 +36,9 @@ public class BlockDispatcher {
 	        System.out.println(this.sr.getAll());
 	        
 	        for(int i = 0; i < hosts.size(); i++) {
-				System.out.println("Sending block data to" + "hosts.get(i)");
-		
-				HttpPost httpPost = new HttpPost("http://" + hosts.get(i) + ":8000/mine");
+				System.out.println("Sending the transaction data to " + hosts.get(i));
+				
+				HttpPost httpPost = new HttpPost("http://" + hosts.get(i) + ":4444/mine");
 				
 				threads[i] = new PostThread(client, httpPost, i + 1, data);
 				
@@ -77,7 +76,6 @@ public class BlockDispatcher {
 		public void run() {
 			
 			try {
-				
 				CloseableHttpClient client = HttpClients.createDefault();
 										
 			    StringEntity entity = new StringEntity(this.data);
