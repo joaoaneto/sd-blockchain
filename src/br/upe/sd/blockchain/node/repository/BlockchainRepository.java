@@ -27,6 +27,10 @@ public class BlockchainRepository implements IRepository {
 	public void insert(Block block) {
 		JSONObject obj = new JSONObject(block);
 		Document doc = Document.parse(obj.toString());
+
+		if(this.col.count() == 0) {
+			this.col.insertOne(doc);
+		}
 		
 		Block b = this.list().get(this.list().size() - 1);
 		if(!b.getOwner().equals(block.getOwner())
@@ -43,6 +47,10 @@ public class BlockchainRepository implements IRepository {
 	public ArrayList<Block> list() {
 		FindIterable<Document> docs = this.col.find().sort(new BasicDBObject("dateCreated", -1));
 		ArrayList<Block> blocks = new ArrayList<Block>();
+
+		if(this.col.count() == 0) {
+			return blocks;
+		}
 		
 		for(Document doc : docs) {
 			Block b = new Block(
@@ -64,6 +72,11 @@ public class BlockchainRepository implements IRepository {
 	public ArrayList<Block> list(String param, String id) {
 		FindIterable<Document> docs = this.col.find(Filters.eq(param, id));
 		ArrayList<Block> blocks = new ArrayList<Block>();
+		
+		if(this.col.count() == 0) {
+			System.out.println("Should here");
+			return blocks;
+		}
 		
 		for(Document doc : docs) {			
 			Block b = new Block(

@@ -21,8 +21,8 @@ public class Blockchain {
 		MongoFactory mf = new MongoFactory(addr, port);
 		
 		this.repo = new BlockchainRepository(mf.getInstance("sd"));
-
-		if(this.repo.list("owner", "0").size() == 0) {			
+		
+		if(this.repo.list("owner", "0").size() == 0) {
 			this.repo.insert(this.createGenesisBlock());
 		}
 	}
@@ -32,7 +32,6 @@ public class Blockchain {
 	}
 	
 	public Block getLatestBlock() {
-		System.out.println(this.repo.list().get(this.repo.list().size() - 1).getHash());
 		return this.repo.list().get(this.repo.list().size() - 1);
 	}
 	
