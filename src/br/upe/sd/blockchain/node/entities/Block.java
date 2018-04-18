@@ -19,6 +19,16 @@ public class Block {
 		this.hash = this.calculateHash() ;
 	}
 	
+	public Block(String owner, String recipient, String time, int value, String previousHash, String hash) {
+		this.setOwner(owner);
+		this.setRecipient(recipient);
+		this.setTime(time);
+		this.setValor(value);
+		this.setPreviousHash(previousHash);
+		this.setHash(hash);
+	}
+	
+	
 	public String calculateHash() {
         String result = null;
 

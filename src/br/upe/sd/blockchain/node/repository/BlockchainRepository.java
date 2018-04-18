@@ -30,8 +30,8 @@ public class BlockchainRepository implements IRepository {
 		
 		Block b = this.list().get(this.list().size() - 1);
 		if(!b.getOwner().equals(block.getOwner())
-				&& !b.getRecipient().equals(block.getRecipient())
-				&& b.getValor() != block.getValor()) {
+				|| !b.getRecipient().equals(block.getRecipient())
+				|| b.getValor() != block.getValor()) {
 			this.col.insertOne(doc);
 			System.out.println("The block was save in the blockchain!!");
 		}else {
@@ -50,7 +50,8 @@ public class BlockchainRepository implements IRepository {
 					doc.getString("recipient"),
 					doc.getString("time"),
 					doc.getInteger("valor"), 
-					doc.getString("previousHash")
+					doc.getString("previousHash"),
+					doc.getString("hash")
 			);
 			
 			blocks.add(b);
@@ -70,7 +71,8 @@ public class BlockchainRepository implements IRepository {
 					doc.getString("recipient"),
 					doc.getString("time"),
 					doc.getInteger("valor"), 
-					doc.getString("previousHash")
+					doc.getString("previousHash"),
+					doc.getString("hash")
 			);
 			
 			blocks.add(b);

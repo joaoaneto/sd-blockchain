@@ -32,6 +32,7 @@ public class Blockchain {
 	}
 	
 	public Block getLatestBlock() {
+		System.out.println(this.repo.list().get(this.repo.list().size() - 1).getHash());
 		return this.repo.list().get(this.repo.list().size() - 1);
 	}
 	
